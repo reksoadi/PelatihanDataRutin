@@ -1,0 +1,61 @@
+library(tidyverse)     # Tidyverse adalah library untuk memanipulasi data seperti filtering, grouping, memilih variabel, menamai ulang variabel, dst.
+library(leaflet)       # Leaflet adalah library untuk membuat pemetaan interaktif. Pelajari lebih lanjut di: https://rstudio.github.io/leaflet/
+library(sf)            # sf adalah library untuk mengolah data-data spasial. Pelajari lebih lanjut di: https://r-spatial.github.io/sf/
+library(htmltools)     # htmltools adalah library yang berisikan tools untuk membuat aplikasi web berbasis html. Pelajari lebih lanjut di: https://cran.r-project.org/web/packages/htmltools/index.html
+
+
+# Import data
+kabmap <- import("kabmap.rds")                       # Data batas administratif antar-kabupaten/kota di Indonesia
+data_covid <- import("data_covid_23nov2020.xlsx")    # Data situasi kasus Covid-19 per kabupaten/kota di Indonesia tanggal 23 Nov 2020. Sumber: https://kawalcovid19.id/
+
+# Kombinasikan data pemetaan dan data Covid-19 per kabupaten
+data_peta <- kabmap %>%                     
+  inner_join(kablatest) #%>%
+  # filter(Provinsi == "Jawa Timur")
+
+# Buat peta dengan markers lingkaran
+leaflet(data = data_peta) %>%
+  addProviderTiles(
+    provider = providers$CartoDB.DarkMatter,
+    options = providerTileOptions(opacity = 0.8)
+  ) %>%
+  addCircleMarkers(
+    lng = ~Longitude,
+    lat = ~Latitude,
+    color = "#D8232A",
+    weight = 1,
+    opacity = 0.8,
+    fillOpacity = 0.8,
+    radius = ~sqrt(`Jumlah kasus`)/5,
+    label = ~htmlEscape(paste0(KabKota, ": ", formatC(`Jumlah kasus`, big.mark = ".", format = "d"), " orang"))
+  )
+
+
+# Buat palet warna
+palet_batas <- c(0, 100, 500, 1000, 2000, 5000, 10000, 20000, 50000)
+palet_warna <- colorBin(
+  palette = "viridis",
+  bins = palet_batas,
+  reverse = T)
+
+# Buat peta choropleth
+leaflet(data = data_peta) %>%
+  addProviderTiles(
+    provider = providers$CartoDB.DarkMatter,
+    options = providerTileOptions(opacity = 0.8)
+    ) %>%
+  addPolygons(
+    color = "white",
+    fillColor = ~palet_warna(`Jumlah kasus`),
+    fillOpacity = 1,
+    weight = 1,
+    label = ~htmlEscape(paste0(KabKota, ": ", `Jumlah kasus`, " orang"))
+  ) %>%
+  addLegend(
+    "bottomright", 
+    colors = ~unique(palet_warna(sort(`Jumlah kasus`))),
+    labels = ~palet_batas,
+            title = "Jumlah kasus Covid-19",
+            opacity = 1,
+            labFormat = labelFormat()
+  )

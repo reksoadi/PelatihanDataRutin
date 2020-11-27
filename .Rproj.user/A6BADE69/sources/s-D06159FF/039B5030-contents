@@ -1,0 +1,39 @@
+---
+title: "Mengkomunikasikan Data Visual dengan R"
+author: Insan Rekso Adiwibowo
+output:
+  revealjs::revealjs_presentation:
+    transition: slide
+    self_contained: false
+    reveal_plugins: ["menu"]
+    reveal_options:
+      chalkboard:
+        theme: moon
+        toggleNotesButton: false
+      menu:
+        side: right
+---
+
+# In the morning {data-background=#ff0000}
+
+## Getting up
+
+- Turn off alarm
+- Get out of bed
+
+## Breakfast
+
+- Eat eggs
+- Drink coffee
+
+# In the evening
+
+## Dinner
+
+- Eat spaghetti
+- Drink wine
+
+## Going to sleep
+
+- Get in bed
+- Count sheep

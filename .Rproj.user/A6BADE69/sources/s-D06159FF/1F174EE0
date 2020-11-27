@@ -1,0 +1,32 @@
+{
+    "id": "1F174EE0",
+    "path": null,
+    "project_path": null,
+    "type": "r_dataframe",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1606098012100.0,
+    "source_on_save": false,
+    "relative_order": 4,
+    "properties": {
+        "cacheKey": "4A3C1093",
+        "caption": "data_peta",
+        "contentUrl": "grid_resource/gridviewer.html?env=&obj=data_peta&cache_key=4A3C1093&max_cols=50",
+        "displayedObservations": "38",
+        "environment": "",
+        "expression": "data_peta",
+        "object": "data_peta",
+        "preview": "0",
+        "totalObservations": "38",
+        "variables": "12"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 3548067076488918113,
+    "encoding": "",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1606098012100,
+    "read_only": false,
+    "read_only_alternatives": []
+}
